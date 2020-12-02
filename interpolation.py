@@ -1,5 +1,5 @@
 import attr
-import typing 
+from typing import * 
 import pandas as pd
 import numpy as np
 
@@ -10,24 +10,23 @@ class Interpolation(object):
 	Elements:
 		data
 	"""
-	data : pd.DataFrame = attr.ib(default=None)
+	times : List[float] = attr.ib(default=None)
+	data : List[float] = attr.ib(default=None)
 		
 	def value(self, time):
-		times = self.data["Time"].values
-		
-		if time > times[-1]:
+		if time > self.times[-1]:
 			i = -2
 		else:
 			# find interval
 			i = 0
-			while time > times[i]:
+			while time > self.times[i]:
 				i += 1
 			i -= 1
 
-		v1 = self.data.iloc[i]["Value"]
-		v2 = self.data.iloc[i + 1]["Value"]
+		v1 = self.data[i]
+		v2 = self.data[i + 1]
 		
-		return self.interpolate(time, times[i], times[i+1], v1, v2)
+		return self.interpolate(time, self.times[i], self.times[i+1], v1, v2)
 
 	@staticmethod
 	def interpolate(time, time1, time2, value1, value2):
