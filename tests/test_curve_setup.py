@@ -19,10 +19,10 @@ def trade2(curves):
     times = timetable[::2]
     return np.sum(100*curves[0].values(times) - 101 * curves[1].values(times)) - v
 
-def trade3(curves):
-    v = 
-    times = timetable[5::2]
-    return np.sum(100*curves[0].values(times) - 101 * curves[1].values(times)) - v
+# def trade3(curves):
+#     # v = 
+#     times = timetable[5::2]
+#     return np.sum(100*curves[0].values(times) - 101 * curves[1].values(times)) - v
 
 def main3():
     values_curve1 = [1, 0.4, 0.39, 0.29]
