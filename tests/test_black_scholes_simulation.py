@@ -1,8 +1,8 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-from model.black_scholes_model import BlackScholesModel
-from simulation.simulation import Simulation
+from straws.model.black_scholes_model import BlackScholesModel
+from straws.simulation.simulation import Simulation
 
 
 def test_black_scholes_simulation():
