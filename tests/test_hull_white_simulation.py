@@ -1,21 +1,22 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-from straws.model.black_scholes_model import BlackScholesModel
+from straws.model.hull_white_model import HullWhiteModel
 from straws.simulation.simulation import Simulation
 
 
-def test_black_scholes_simulation():
+def test_hull_white_simulation():
     times = np.linspace(0, 10)
     N = 10
 
-    name = '12'
-    
-    x0 = 1
+    x0 = [1]
     sigma = 0.2
     mu = 0.0001
+    alpha = 0.01
 
-    model = BlackScholesModel(name, x0, sigma, mu)
+    name = '12'
+
+    model = HullWhiteModel(name, x0, sigma, mu, alpha)
     sim = Simulation(model, N, times)
 
     paths = sim.simulate()
