@@ -5,7 +5,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from curve.interpolation import Interpolation
+from straws.curve.interpolation import Interpolation
 
 @attr.s(slots=True, auto_attribs=True)
 class Curve():

@@ -3,8 +3,8 @@ from typing import *
 import pandas as pd
 import numpy as np
 
-from curve.curve import Curve
-from curve.interpolation import LogLinearInterpolation
+from straws.curve.curve import Curve
+from straws.curve.interpolation import LogLinearInterpolation
 
 @attr.s(slots=True, auto_attribs=True)
 class LogLinearCurve(Curve):
