@@ -6,6 +6,8 @@ from typing import *
 
 from scipy.optimize import root
 
+from curve.linear_curve import LinearCurve
+
 
 timetable = np.linspace(0.1, 8, 20)
 
@@ -24,7 +26,7 @@ def trade2(curves):
 #     times = timetable[5::2]
 #     return np.sum(100*curves[0].values(times) - 101 * curves[1].values(times)) - v
 
-def main3():
+def test_3():
     values_curve1 = [1, 0.4, 0.39, 0.29]
     times_curve1 =  [0, 1, 2, 8]
     curve1 = LinearCurve(times=times_curve1, data=values_curve1)
@@ -40,7 +42,7 @@ def main3():
     curve2.plot()
     plt.show()
 
-def main():
+def test_1():
     times = [0, timetable[9], timetable[-1]]
     values = [0.9**i for i in range(len(times))]
 
@@ -65,7 +67,3 @@ def main():
         curves[0].plot()
         curves[1].plot()
         plt.show()
-
-
-if __name__ == "__main__":
-    main()
