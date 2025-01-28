@@ -1,11 +1,11 @@
 import attr
+from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
 from typing import * 
 
 from scipy.optimize import root
 
-from curve import *
 
 timetable = np.linspace(0.1, 8, 20)
 
