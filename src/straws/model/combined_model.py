@@ -1,5 +1,5 @@
 import numpy as np
-from model.model import Model
+from straws.model.model import Model
 
 
 class CombinedModel(Model):

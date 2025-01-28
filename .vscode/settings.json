@@ -1,10 +1,10 @@
 {
     "python.testing.pytestArgs": [
-        "straws/tests"
+        "tests"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.analysis.extraPaths": [
-        "./straws/src"
+        "./src"
     ]
 }
