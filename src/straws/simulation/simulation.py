@@ -25,9 +25,9 @@ class Simulation():
         
         for i in range(1, n):            
             paths[:, i, :] = paths[:, i-1, :]
-            paths[:, i, :] += self.model.mean(self.times[i-1], paths[:, i-1, :]) * dt[i-1] 
+            paths[:, i, :] += self.model.drift(self.times[i-1], paths[:, i-1, :]) * dt[i-1] 
 
-            paths[:, i, :] += np.sqrt(self.model.variance(self.times[i-1], paths[:, i-1, :])) * np.sqrt(dt[i-1]) * dW[:, i-1, :] 
+            paths[:, i, :] += self.model.volatility(self.times[i-1], paths[:, i-1, :]) * np.sqrt(dt[i-1]) * dW[:, i-1, :] 
             #paths[:, i-1] * np.exp((self.mu - 0.5 * self.sigma ** 2) * dt[i-1] + self.sigma * np.sqrt(dt[i-1]) * dW[:, i-1])
 
         # self.simulated = True

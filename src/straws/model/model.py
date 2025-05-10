@@ -21,11 +21,11 @@ class Model():
         return self.model_name + ':' + self.name_id    
 
     @abstractmethod
-    def mean(self, t, x):
+    def drift(self, t, x):
         pass
 
     @abstractmethod
-    def variance(self, t, x):
+    def volatility(self, t, x):
         pass
     
     def apply_correlations(self, dW):

@@ -13,11 +13,11 @@ class CombinedModel(Model):
 
     model_name = 'combined_model'
 
-    def mean(self, t, x):
-        return np.concatenate([m.mean(t, x[:, self.dimension_split[i]]) for i, m in enumerate(self.models)], axis=1)
+    def drift(self, t, x):
+        return np.concatenate([m.drift(t, x[:, self.dimension_split[i]]) for i, m in enumerate(self.models)], axis=1)
 
-    def variance(self, t, x):
-        return np.concatenate([m.variance(t, x[:, self.dimension_split[i]]) for i, m in enumerate(self.models)], axis=1)
+    def volatility(self, t, x):
+        return np.concatenate([m.volatility(t, x[:, self.dimension_split[i]]) for i, m in enumerate(self.models)], axis=1)
     
     def apply_correlations(self, dW):
         corr = self.correlation_provider.get_corr_matrix([m.name for m in self.models])

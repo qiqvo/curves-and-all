@@ -11,9 +11,9 @@ class BlackScholesModel(Model):
 
     model_name = 'black_scholes_model'
 
-    def mean(self, t, x):
+    def drift(self, t, x):
         return self.mu * x
     
-    def variance(self, t, x):
-        return self.sigma**2 * np.ones_like(x)
+    def volatility(self, t, x):
+        return self.sigma * x
     
