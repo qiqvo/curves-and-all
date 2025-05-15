@@ -19,7 +19,7 @@ def test_combined_simulation():
 
     model1 = HullWhiteModel(name, 0, sigma, mu, alpha)
     model2 = BlackScholesModel(name, 1, sigma, mu)
-    cp = CorrelationProvider({(model1.name, model2.name): 0.5})
+    cp = CorrelationProvider({(model1.id, model2.id): 0.5})
 
     model = CombinedModel(name, [model1, model2], correlation_provider=cp)
 

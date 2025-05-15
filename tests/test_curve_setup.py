@@ -1,4 +1,3 @@
-import attr
 from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
@@ -6,20 +5,22 @@ from typing import *
 
 from scipy.optimize import root
 
-from straws.curve.linear_curve import LinearCurve
+from straws.curve.interpolated_curve import InterpolatedCurve
+from straws.settings import Settings
 
 
-timetable = np.linspace(0.1, 8, 20)
+
+timetable = np.linspace(0.1, 3, 3)
 
 def trade1(curves):
     v = -0.2931530452338909
     times = timetable[:10:2]
-    return np.sum(2 * curves[0].values(times)**2 -  curves[1].values(times)**3) - v
+    return np.sum(2 * curves[0].evaluate(t)**2 -  curves[1].evaluate(t)**3 for t in times) - v
 
 def trade2(curves):
     v = -359.1314035087719
     times = timetable[::2]
-    return np.sum(100*curves[0].values(times) - 101 * curves[1].values(times)) - v
+    return np.sum(100*curves[0].evaluate(t) - 101 * curves[1].evaluate(t) for t in times) - v
 
 # def trade3(curves):
 #     # v = 
@@ -27,13 +28,25 @@ def trade2(curves):
 #     return np.sum(100*curves[0].values(times) - 101 * curves[1].values(times)) - v
 
 def test_curve_setup_2():
+    today = pd.to_datetime('2025-01-01')
+    S = Settings(today=today)
+    S.activate()
+    S.save()
+
+    d1 = today
+    dates = [d1 + pd.DateOffset(years=i) for i in range(5)]
+
     values_curve1 = [1, 0.4, 0.39, 0.29]
-    times_curve1 =  [0, 1, 2, 8]
-    curve1 = LinearCurve(times=times_curve1, data=values_curve1)
+    curve1 = InterpolatedCurve(dates=dates, 
+                               values=values_curve1,
+                               basis_type='act/360',
+                               interpolation_type='linear')
     
     values_curve2 = [1, 0.9, 0.8, 0.7, 0.6]
-    times_curve2 =  [0, 1.5, 2, 5, 8]
-    curve2 = LinearCurve(times=times_curve2, data=values_curve2)
+    curve2 = InterpolatedCurve(dates=dates, 
+                               values=values_curve2,
+                               basis_type='act/360',
+                               interpolation_type='linear')
 
     print("trade1", trade1([curve1, curve2]))
     print("trade2", trade2([curve1, curve2]))
