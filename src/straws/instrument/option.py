@@ -1,22 +1,18 @@
-from abc import abstractmethod
-import attr
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+from dataclasses import dataclass
 
 from straws.curve.discount_curve import DiscountCurve
 from straws.instrument.instrument import Instrument
 from straws.model.model import Model
 
 
-@attr.s(slots=True, auto_attribs=True)
+@dataclass
 class Option(Instrument):
-    flavour: str = attr.ib(default=None)
-    notional: float = attr.ib(default=None)
-    currency: str = attr.ib(default=None)
-    model_id: str = attr.ib(default=None)
-    strike: float = attr.ib(default=None)
-    discount_curve_id: str = attr.ib(default=None)
+    flavour: str 
+    notional: float 
+    currency: str 
+    model_id: str  
+    strike: float  
+    discount_curve_id: str  
 
     def _price(self, time):
         model = Model.load(self.model_id)

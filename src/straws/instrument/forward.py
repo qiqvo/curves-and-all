@@ -1,18 +1,14 @@
-from abc import abstractmethod
-import attr
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+from dataclasses import dataclass
 
 from straws.curve.discount_curve import DiscountCurve
 from straws.instrument.instrument import Instrument
 
 
-@attr.s(slots=True, auto_attribs=True)
+@dataclass
 class Forward(Instrument):
-    strike: float = attr.ib(default=None)
-    forward_curve_id: str = attr.ib(default=None)
-    discount_curve_id: str = attr.ib(default=None)
+    strike: float
+    forward_curve_id: str 
+    discount_curve_id: str
 
     def _price(self, time=0):
         forward_curve = DiscountCurve.load(self.forward_curve_id)

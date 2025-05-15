@@ -1,15 +1,17 @@
 from abc import abstractmethod
-import attr
+from dataclasses import dataclass
+
+import pandas as pd
 
 from straws.data.opaque_object_data import OpaqueObjectData
 
 
-@attr.s(slots=True, auto_attribs=True)
+@dataclass
 class Instrument(OpaqueObjectData):
-    name: str = attr.ib(default=None)
-    maturity: float = attr.ib(default=None)
-    notional: float = attr.ib(default=None)
-    currency: str = attr.ib(default=None)
+    name: str
+    maturity: pd.Timestamp
+    notional: float
+    currency: str
 
     @abstractmethod
     def _price(self, time):
