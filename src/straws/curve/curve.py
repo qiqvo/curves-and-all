@@ -1,27 +1,25 @@
-import attr
-from typing import * 
-import pandas as pd
-import numpy as np
+from abc import abstractmethod
+from dataclasses import dataclass
 
-import matplotlib.pyplot as plt
+from straws.curve.basis import Basis, resolve_basis
+from straws.data.opaque_object_data import OpaqueObjectData
+from straws.settings import Settings
 
-from straws.curve.interpolation import Interpolation
+@dataclass
+class Curve(OpaqueObjectData):
+	basis_type: str 
 
-@attr.s(slots=True, auto_attribs=True)
-class Curve():
-	times : List[float] = attr.ib(default=None)
-	data : List[float] = attr.ib(default=None)
-	interpolation : Interpolation = attr.ib(default=None)
+	def __post_init__(self):
+		self.set_basis()
+	
+	def set_basis(self):
+		today = Settings.get_active_settings().today
+		self.basis : Basis = resolve_basis(self.basis_type, today)
 
-	def value(self, time : float):
-		return self.interpolation.value(time)
+	@abstractmethod
+	def evaluate(self, time : float):
+		raise NotImplementedError("Subclasses must implement this method.")
 
-	def values(self, times : List[float]):
-		return np.array([self.value(time) for time in times])
-
+	@abstractmethod
 	def plot(self):
-		times = np.linspace(self.times[0], self.times[-1], 100)
-		
-		plt.plot(times, self.values(times))
-		plt.scatter(self.times, self.data, c='r')
-		# plt.show()
+		raise NotImplementedError("Subclasses must implement this method.")
