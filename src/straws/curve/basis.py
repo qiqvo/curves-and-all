@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 
 class Basis(object):
@@ -39,3 +38,12 @@ class BasisAct365(Basis):
 		if date == self.today:
 			return 0
 		return (date - self.today) / np.timedelta64(1,'D') / 365
+	
+
+def resolve_basis(s: str, today) -> Basis:
+    if s == 'act/360':
+        return BasisAct360(today)
+    elif s == 'act/365':
+        return BasisAct365(today)
+    else:
+        raise ValueError(f"Unknown basis {s}")
