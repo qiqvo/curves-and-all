@@ -30,12 +30,12 @@ class CorrelationProvider():
             self.corr_dict[(key[1], key[1])] = 1
                     
 
-    def set_matrix(self, corr_matrix, names):
-        n = len(names)
+    def set_matrix(self, corr_matrix, ids):
+        n = len(ids)
         for i in range(n):
             for j in range(n):
-                self.corr_dict[(names[i], names[j])] = corr_matrix[i, j]
-                self.corr_dict[(names[j], names[i])] = corr_matrix[i, j]
+                self.corr_dict[(ids[i], ids[j])] = corr_matrix[i, j]
+                self.corr_dict[(ids[j], ids[i])] = corr_matrix[i, j]
     
     def set_dict(self, corr_dict):
         self.corr_dict = self.corr_dict | corr_dict
@@ -44,12 +44,12 @@ class CorrelationProvider():
     def get_corr(self, name1, name2):
         return self.corr_dict[(name1, name2)]
     
-    def get_corr_matrix(self, names):
-        n = len(names)
+    def get_corr_matrix(self, ids):
+        n = len(ids)
         corr_matrix = np.eye(n)
         for i in range(n):
             for j in range(i, n):
-                corr_matrix[i, j] = self.corr_dict[(names[i], names[j])]
+                corr_matrix[i, j] = self.corr_dict[(ids[i], ids[j])]
                 corr_matrix[j, i] = corr_matrix[i, j]
 
         return corr_matrix
