@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from dataclasses import KW_ONLY, InitVar, dataclass, field
+from dataclasses import KW_ONLY, dataclass, field
 import uuid
 
 @dataclass
