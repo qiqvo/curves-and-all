@@ -12,6 +12,9 @@ class Basis(object):
 	def get_time(self, date):
 		pass
 
+	def get_delta(self, date1, date2):
+		return self.get_time(date2) - self.get_time(date1)
+
 class BasisAct360(Basis):
 	"""
 	Basis act/360

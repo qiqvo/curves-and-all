@@ -35,6 +35,7 @@ class Curvebuilder(OpaqueObjectData):
 			
 			def J(x):
 				curve.values[-1] = x
+				# TODO: explore how to create a temporary registry and save in it
 				curve.save()
 				return instrument.price()
 

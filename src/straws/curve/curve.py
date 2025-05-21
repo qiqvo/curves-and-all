@@ -19,6 +19,10 @@ class Curve(OpaqueObjectData):
 	@abstractmethod
 	def evaluate(self, time : float):
 		raise NotImplementedError("Subclasses must implement this method.")
+	
+	def evaluate_on_date(self, date):
+		time = self.basis.get_time(date)
+		return self.evaluate(time)
 
 	@abstractmethod
 	def plot(self):
