@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 
 from straws.curve.curve import Curve
 from straws.curve.interpolation import Interpolation, resolve_interpolation
+from straws.data.utils import get_basis
 
 @dataclass
 class InterpolatedCurve(Curve):
@@ -14,8 +15,8 @@ class InterpolatedCurve(Curve):
 	values: List[float] 
 	interpolation_type: str 
 
-	def __post_init__(self, **kwargs):
-		self.set_basis()
+	def __post_init__(self):
+		self.basis = get_basis(self.basis_type)
 		self.set_times()
 		self.set_interpolation()
 

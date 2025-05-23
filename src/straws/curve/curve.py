@@ -1,20 +1,15 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 
-from straws.curve.basis import Basis, resolve_basis
 from straws.data.opaque_object_data import OpaqueObjectData
-from straws.settings import Settings
+from straws.data.utils import get_basis
 
 @dataclass
 class Curve(OpaqueObjectData):
 	basis_type: str 
 
 	def __post_init__(self):
-		self.set_basis()
-	
-	def set_basis(self):
-		today = Settings.get_active_settings().today
-		self.basis : Basis = resolve_basis(self.basis_type, today)
+		self.basis = get_basis(self.basis_type)
 
 	@abstractmethod
 	def evaluate(self, time : float):

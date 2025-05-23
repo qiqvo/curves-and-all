@@ -1,10 +1,8 @@
 from dataclasses import dataclass
 
-from straws.curve.basis import Basis, resolve_basis
-from straws.curve.discount_curve import DiscountCurve
+from straws.data.utils import get_basis, get_discount_curve
 from straws.instrument.instrument import Instrument
 from straws.model.model import Model
-from straws.settings import Settings
 
 
 @dataclass
@@ -18,8 +16,8 @@ class Option(Instrument):
     basis_type: str 
 
     def __post_init__(self):
-        today = Settings.get_active_settings().today
-        self.basis : Basis = resolve_basis(self.basis_type_fixed, today)
+        self.discount_curve = get_discount_curve(self.discount_curve_id)
+        self.basis = get_basis(self.basis_type)
 
     def price_internal(self, on_date):
         time = self.basis.get_time(on_date)
@@ -27,8 +25,7 @@ class Option(Instrument):
         return model.price_option(self, self.strike, self.maturity, self.flavour, time)
         
     def payoff(self, value, on_date):
-        curve:DiscountCurve = DiscountCurve.load(self.discount_curve_id)
-        discount = curve.evaluate_on_date(self.maturity) / curve.evaluate_on_date(on_date)
+        discount = self.discount_curve.discount_on_date(on_date, self.maturity)
         
         res = (value - self.strike) * self.notional * discount
         if self.flavour == 'put':
