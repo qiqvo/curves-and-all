@@ -3,10 +3,8 @@ from typing import List
 
 import pandas as pd
 
-from straws.curve.basis import Basis, resolve_basis
-from straws.curve.discount_curve import DiscountCurve
+from straws.data.utils import get_basis, get_discount_curve
 from straws.instrument.instrument import Instrument
-from straws.settings import Settings
 
 
 @dataclass
@@ -16,16 +14,17 @@ class Bond(Instrument):
     basis_type: str
     discount_curve_id: str
 
-    def price_internal(self, on_date=0):
-        discount_curve: DiscountCurve = DiscountCurve.load(self.discount_curve_id)
+    def __post_init__(self):
+        self.basis = get_basis(self.basis_type)
+        self.discount_curve = get_discount_curve(self.discount_curve_id)
 
+    def price_internal(self, on_date: pd.Timestamp) -> float:
         res = 0
         for d in self.coupon_dates:
             if d < on_date:
                 continue
             else:
-                res += self.coupon * discount_curve.evaluate_on_date(d) / discount_curve.evaluate_on_date(on_date)
-            
-        res += discount_curve.evaluate_on_date(self.maturity) / discount_curve.evaluate_on_date(on_date)
+                res += self.coupon * self.discount_curve.discount_on_date(on_date, d)
+        res += self.discount_curve.discount_on_date(on_date, self.maturity)
 
         return res
